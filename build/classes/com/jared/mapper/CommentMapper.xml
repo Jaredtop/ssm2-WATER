@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.jared.mapper.CommentMapper">
+        <resultMap type="com.jared.pojo.Comment" id="CommentBaseMap">
+            <id property="c_id" column="c_id" jdbcType="INTEGER"/>
+            <result property="c_username" column="c_username" jdbcType="VARCHAR"/>
+            <result property="c_comment" column="c_comment" jdbcType="VARCHAR"/>
+            <result property="c_createtime" column="c_createtime" jdbcType="VARCHAR"/>
+            <result property="c_status" column="c_status" jdbcType="INTEGER"/>
+            <result property="c_type" column="c_type" jdbcType="INTEGER"/>
+            <result property="a_id" column="a_id" jdbcType="INTEGER"/>
+        </resultMap>
+        <insert id="insert" parameterType="com.jared.pojo.Comment">
+            insert into comment(c_username,c_comment,c_createtime,c_status,c_type,a_id) 
+            values(#{c_username},#{c_comment},#{c_createtime},#{c_status},#{c_type},#{a_id});
+        </insert>
+        <select id="findCommentById" resultType="com.jared.pojo.Comment">
+            select * from comment where a_id=#{param2} and c_type=#{param1};
+        </select>
+        <select id="findCommentByPage" resultMap="CommentBaseMap">
+            select * from comment
+        </select>
+        <delete id="remove" parameterType="INTEGER">
+            delete from comment where c_id=#{c_id};
+        </delete>
+        <delete id="removeArticle" parameterType="INTEGER">
+            delete from comment where a_id=#{a_id};
+        </delete>
+       <update id="setCommentStatus" parameterType="INTEGER">
+            update comment set c_status=#{param2} where c_id=#{param1};
+       </update>
+       <select id="getComentById" parameterType="INTEGER" resultType="com.jared.pojo.Comment">
+            select * from comment where c_id=#{c_id}
+       </select>
+    </mapper>

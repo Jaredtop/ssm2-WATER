@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.jared.mapper.ArticleMapper">
+        <resultMap type="com.jared.pojo.Article" id="ArticleBaseMap">
+            <id property="a_id" column="a_id" jdbcType="INTEGER"/>
+            <result property="a_title" column="a_title" jdbcType="VARCHAR"/>
+            <result property="a_username" column="a_username" jdbcType="VARCHAR"/>
+            <result property="a_article" column="a_article" jdbcType="VARCHAR"/>
+            <result property="a_lasttime" column="a_lasttime" jdbcType="VARCHAR"/>
+            <result property="a_status" column="a_status" jdbcType="INTEGER"/>
+        </resultMap>
+        <!-- 插入数据 -->
+        <insert id="insert" parameterType="com.jared.pojo.Article">
+            insert into article(a_title,a_username,a_article,a_lasttime,a_status) 
+            values(#{a_title},#{a_username},#{a_article},#{a_lasttime},#{a_status});
+        </insert>
+        <!-- 分页查询 -->
+        <select id="findArticleByPage" resultMap="ArticleBaseMap">
+            select * from article
+        </select>
+        <select id="findArticleById" parameterType="INTEGER" resultType="com.jared.pojo.Article">
+            select * from article where a_id=#{a_id};
+        </select>
+        <select id="getCount" resultType="INTEGER">
+            select count(*) from article;
+        </select>
+        <select id="findNewByPage" resultMap="ArticleBaseMap" parameterType="INTEGER">
+            select * from article limit #{param1},#{param2};
+        </select>
+        <delete id="remove" parameterType="INTEGER">
+            delete from article where a_id=#{a_id};
+        </delete>
+        <update id="save">
+            update article set a_title=#{param2},a_article=#{param3} where a_id=#{param1};
+        </update>
+    </mapper>

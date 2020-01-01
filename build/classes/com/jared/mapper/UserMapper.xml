@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.jared.mapper.UserMapper">
+        <resultMap type="com.jared.pojo.User" id="UserBaseMap">
+            <id property="u_id" column="u_id" jdbcType="INTEGER"/>
+            <result property="u_username" column="u_username" jdbcType="VARCHAR"/>
+            <result property="u_password" column="u_password" jdbcType="VARCHAR"/>
+            <result property="u_email" column="u_email" jdbcType="VARCHAR"/>
+            <result property="u_birthday" column="u_birthday" jdbcType="VARCHAR"/>
+            <result property="u_city" column="u_city" jdbcType="VARCHAR"/>
+            <result property="u_status" column="u_status" jdbcType="INTEGER"/>
+            <result property="u_role" column="u_role" jdbcType="INTEGER"/>
+            <result property="u_img" column="u_img" jdbcType="VARCHAR"/>
+        </resultMap>
+        <select id="login" resultType="com.jared.pojo.User" parameterType="String">
+            select * from user where u_username=#{u_username};
+        </select>
+        <select id="checkName" resultType="com.jared.pojo.User" parameterType="String">
+            select * from user where u_username=#{u_username};
+        </select>
+        <!-- 插入user用户 -->
+        <select id="insert">
+            insert into 
+            user(
+                    u_username,u_password,u_email,u_birthday,
+                    u_city,u_status,u_role,u_img)
+            
+            values  (#{u_username},#{u_password},#{u_email},#{u_birthday},
+                    #{u_city},#{u_status},#{u_role},#{u_img});
+        </select>
+        <select id="findByPage" resultMap="UserBaseMap">
+            select * from user
+        </select>
+        <select id="toViewUserById" resultMap="UserBaseMap" parameterType="INTEGER">
+            select * from user where u_id=#{u_id};
+        </select>
+        <!-- 修改图片路径 -->
+        <update id="updateImg" >
+            update user set u_img=#{param2} where u_id=#{param1}
+        </update>
+        <!-- 根据id修改信息 -->
+        <update id="updateUser" parameterType="com.jared.pojo.User">
+            update user set 
+            u_username=#{u_username},u_password=#{u_password},
+            u_email=#{u_email},u_birthday=#{u_birthday},
+            u_city=#{u_city} where u_id=#{u_id};
+        </update>
+        <delete id="remove" parameterType="INTEGER">
+            delete from user where u_id=#{u_id};
+        </delete>
+        <update id="setStatus">
+            update user set u_status=#{param2} where u_id=#{param1};
+        </update>
+        <update id="setRole">
+            update user set u_role=#{param2} where u_id=#{param1};
+        </update>
+    </mapper>

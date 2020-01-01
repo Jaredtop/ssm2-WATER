@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.jared.mapper.ForumMapper">
+        <resultMap type="com.jared.pojo.Forum" id="ForumBaseMap">
+            <id property="f_id" column="f_id" jdbcType="INTEGER"/>
+            <result property="f_title" column="f_title" jdbcType="VARCHAR"/>
+            <result property="f_username" column="f_username" jdbcType="VARCHAR"/>
+            <result property="f_createtime" column="f_createtime" jdbcType="VARCHAR"/>
+            <result property="f_comment" column="f_comment" jdbcType="INTEGER"/>
+            <result property="f_status" column="f_status" jdbcType="INTEGER"/>
+        </resultMap>
+        <insert id="insert" parameterType="com.jared.pojo.Forum">
+            insert into 
+            forum(f_id,f_title,f_username,f_createtime,f_comment,f_status) 
+            values(#{f_id},#{f_title},#{f_username},#{f_createtime},#{f_comment},#{f_status});
+        </insert>
+        <select id="findForumByPage" resultMap="ForumBaseMap">
+            select * from forum
+        </select>
+        <delete id="remove" parameterType="INTEGER">
+            delete from forum where f_id=#{f_id};
+        </delete>
+        <select id="findForumById" parameterType="INTEGER" resultType="com.jared.pojo.Forum">
+            select * from forum where f_id=#{f_id};
+        </select>
+        <update id="update">
+            update forum set f_title=#{param2} where f_id=#{param1};
+        </update>
+        <update id="addF_comment">
+            update forum set f_comment=f_comment+1 where f_id=#{param1};
+        </update>
+        <update id="delF_comment">
+            update forum set f_comment=f_comment-1 where f_id=#{param1};
+        </update>
+    </mapper>
